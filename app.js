@@ -28,7 +28,12 @@ async function loadData() {
 }
 
 function startBooking() {
-  document.querySelector(".plans").scrollIntoView({ behavior:"smooth" });
+  document.querySelector(".plans").scrollIntoView({ behavior: "smooth" });
+}
+
+function normalizePriceText(text) {
+  if (!text) return "";
+  return String(text).replace(/起起/g, "起");
 }
 
 function renderPlans(priceList) {
@@ -41,14 +46,16 @@ function renderPlans(priceList) {
     const enabled = item["啟用"] === true || item["啟用"] === "TRUE";
     if (!enabled) return;
 
-    if (!uniquePlans[item["方案"]]) uniquePlans[item["方案"]] = item;
+    if (!uniquePlans[item["方案"]]) {
+      uniquePlans[item["方案"]] = item;
+    }
   });
 
   planCards.innerHTML = "";
 
   Object.values(uniquePlans).forEach(plan => {
     const planName = plan["方案"];
-    const priceText = plan["價格文字"];
+    const priceText = normalizePriceText(plan["價格文字"]);
     const isMain = planName.includes("全方位");
 
     planCards.innerHTML += `
@@ -57,7 +64,7 @@ function renderPlans(priceList) {
           <strong>${planName}</strong>
           <span>${getPlanSubText(planName)}</span>
         </div>
-        <div class="price">${priceText}起</div>
+        <div class="price">${priceText}</div>
       </div>
     `;
 
@@ -83,10 +90,11 @@ function getPlanSubText(planName) {
 
 function selectPlan(planName) {
   const plan = priceListData.find(item => item["方案"] === planName);
+  const priceText = plan ? normalizePriceText(plan["價格文字"]) : "";
 
   selectedPlan = {
     name: planName,
-    price: plan ? plan["價格文字"] : "",
+    price: priceText,
     houseType: plan ? plan["驗屋類型"] : ""
   };
 
@@ -100,12 +108,12 @@ function selectPlan(planName) {
 function updateSelectedBox() {
   document.getElementById("selectedPlanBox").classList.remove("hidden");
   document.getElementById("selectedPlanName").innerText =
-    `${selectedPlan.name}｜${selectedPlan.price}起`;
+    `${selectedPlan.name}｜${selectedPlan.price}`;
 }
 
 function openBookingForm() {
   document.getElementById("bookingForm").classList.remove("hidden");
-  document.getElementById("bookingForm").scrollIntoView({ behavior:"smooth" });
+  document.getElementById("bookingForm").scrollIntoView({ behavior: "smooth" });
 }
 
 function getValue(id) {
@@ -135,44 +143,48 @@ async function submitBooking() {
   }
 
   const payload = {
-    action:"createBooking",
-    data:{
-      name:getValue("name"),
-      phone:getValue("phone"),
-      email:getValue("email"),
-      contactPreference:"",
-      lineUid:"",
-      houseType:selectedPlan.houseType,
-      planName:selectedPlan.name,
-      price:selectedPlan.price,
-      projectName:getValue("projectName"),
-      address:getValue("address"),
-      unitFloor:getValue("unitFloor"),
-      area:getValue("area"),
-      contractArea:getValue("contractArea"),
-      roomLayout:getValue("roomLayout"),
-      terraceArea:getValue("terraceArea"),
-      heightInfo:getValue("heightInfo"),
-      bookingDate:getValue("bookingDate"),
-      bookingTime:getValue("bookingTime"),
-      invoiceCarrier:getValue("invoiceCarrier"),
-      taxId:getValue("taxId"),
-      companyTitle:getValue("companyTitle"),
-      note:getValue("note")
+    action: "createBooking",
+    data: {
+      name: getValue("name"),
+      phone: getValue("phone"),
+      email: getValue("email"),
+      contactPreference: "",
+      lineUid: "",
+      houseType: selectedPlan.houseType,
+      planName: selectedPlan.name,
+      price: selectedPlan.price,
+      projectName: getValue("projectName"),
+      address: getValue("address"),
+      unitFloor: getValue("unitFloor"),
+      area: getValue("area"),
+      contractArea: getValue("contractArea"),
+      roomLayout: getValue("roomLayout"),
+      terraceArea: getValue("terraceArea"),
+      heightInfo: getValue("heightInfo"),
+      bookingDate: getValue("bookingDate"),
+      bookingTime: getValue("bookingTime"),
+      invoiceCarrier: getValue("invoiceCarrier"),
+      taxId: getValue("taxId"),
+      companyTitle: getValue("companyTitle"),
+      note: getValue("note")
     }
   };
 
   try {
     const res = await fetch(API_URL, {
-      method:"POST",
-      body:JSON.stringify(payload)
+      method: "POST",
+      body: JSON.stringify(payload)
     });
 
     const result = await res.json();
 
     if (result.ok) {
-      alert(`預約成功！案件編號：${result.bookingId}`);
-      location.reload();
+      document.getElementById("bookingForm").classList.add("hidden");
+      document.getElementById("successPage").classList.remove("hidden");
+      document.getElementById("successText").innerText =
+        `我們已收到您的預約資訊，案件編號：${result.bookingId}。專人將盡快與您聯繫確認。`;
+
+      document.getElementById("successPage").scrollIntoView({ behavior: "smooth" });
     } else {
       alert("送出失敗：" + (result.message || ""));
     }
