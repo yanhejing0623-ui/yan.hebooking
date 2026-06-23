@@ -9,6 +9,33 @@ document.addEventListener("DOMContentLoaded", () => {
   loadData();
 });
 
+function showLoading() {
+
+  const container =
+    document.getElementById(
+      "planDetailContainer"
+    );
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="plan-detail-placeholder">
+
+      <div class="loading-spinner"></div>
+
+      <h3>
+        驗屋方案載入中...
+      </h3>
+
+      <p>
+        正在讀取方案資料，
+        請稍候片刻。
+      </p>
+
+    </div>
+  `;
+}
+
 async function loadData() {
   try {
     const response = await fetch(`${API_URL}?action=init`);
