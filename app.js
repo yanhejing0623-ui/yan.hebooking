@@ -54,7 +54,7 @@ function getPlanSubText(planName) {
   if (planName.includes("小資")) return "22項檢驗項目";
   if (planName.includes("全方位")) return "35項檢驗項目｜主力方案";
   if (planName.includes("中古")) return "9項基本檢驗";
-  if (planName.includes("社區")) return "採用全方位版檢驗內容";
+  if (planName.includes("社區")) return "三戶以上｜採用全方位版檢驗內容";
   return "驗屋服務";
 }
 
