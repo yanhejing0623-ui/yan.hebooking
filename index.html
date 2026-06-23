@@ -6,23 +6,100 @@
 <title>硯赫科技｜驗屋預約</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <div class="app">
-<header class="brand-header">
-<img src="assets/logo.png" alt="硯赫科技LOGO" class="brand-logo">
-</header>
-<main id="homePage">
-<section class="hero-image">
-<img src="assets/hero.webp" alt="硯赫科技專業儀器檢測">
-</section>
-<section class="booking-cta">
-<h1>專業驗屋<br>守護您的家</h1>
-<p>數據驗證每一個家的品質</p>
-<button class="gold-btn" onclick="startBooking()">立即預約驗屋</button>
-</section>
-<div id="planCards"></div>
-<script src="app.js"></script>
-</main>
+
+  <header class="brand-header">
+    <img src="assets/logo.png" alt="硯赫科技LOGO" class="brand-logo">
+  </header>
+
+  <main id="homePage">
+
+    <section class="hero-image">
+      <img src="assets/hero.webp" alt="硯赫科技專業儀器檢測">
+    </section>
+
+    <section class="booking-cta">
+      <h1>專業驗屋<br>守護您的家</h1>
+      <p>數據驗證每一個家的品質</p>
+      <button class="gold-btn" onclick="startBooking()">立即預約驗屋</button>
+    </section>
+
+    <section class="trust-section">
+      <div class="trust-card"><strong>30+</strong><span>專業檢測設備</span></div>
+      <div class="trust-card"><strong>100%</strong><span>儀器年度校正</span></div>
+      <div class="trust-card"><strong>3000+</strong><span>驗屋案例經驗</span></div>
+      <div class="trust-card"><strong>住保認證</strong><span>合法驗屋公司</span></div>
+    </section>
+
+    <section class="plans">
+      <div class="section-title">
+        <h2>選擇驗屋方案</h2>
+        <p>請先選擇方案，下一步填寫預約資料</p>
+      </div>
+
+      <div id="planCards"></div>
+
+      <div id="selectedPlanBox" class="selected-plan-box hidden">
+        <p>已選擇方案</p>
+        <strong id="selectedPlanName"></strong>
+        <button onclick="openBookingForm()">填寫預約資料</button>
+      </div>
+    </section>
+
+    <section id="bookingForm" class="booking-form hidden">
+      <div class="section-title">
+        <h2>預約資料</h2>
+        <p>打 * 號為必填欄位</p>
+      </div>
+
+      <input id="name" placeholder="*預約姓名">
+      <input id="phone" placeholder="*電話">
+      <input id="email" placeholder="*Email">
+      <input id="address" placeholder="驗屋地址">
+      <input id="projectName" placeholder="*建案名稱">
+      <input id="unitFloor" placeholder="*戶別、樓層">
+      <input id="area" placeholder="*權狀坪數">
+      <input id="contractArea" placeholder="*主建物＋附屬建物坪數">
+      <input id="roomLayout" placeholder="房數，例如：三房兩廳兩衛一陽台">
+      <input id="terraceArea" placeholder="露台坪數">
+      <input id="heightInfo" placeholder="建築物是否挑高、樓高多高">
+      <input id="bookingDate" type="date">
+
+      <select id="bookingTime">
+        <option value="">*選擇時段</option>
+        <option>上午</option>
+        <option>下午</option>
+        <option>晚上</option>
+      </select>
+
+      <div class="form-note">
+        本公司採用電子發票，請提供您的 Email 與載具
+      </div>
+
+      <input id="invoiceCarrier" placeholder="*載具">
+      <input id="taxId" placeholder="統編">
+      <input id="companyTitle" placeholder="抬頭">
+      <textarea id="note" placeholder="備註"></textarea>
+
+      <button class="submit-btn" onclick="submitBooking()">送出預約</button>
+    </section>
+
+    <section id="successPage" class="success-page hidden">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h2>預約成功</h2>
+        <p id="successText">
+          我們已收到您的預約資訊，專人將盡快與您聯繫確認。
+        </p>
+        <button onclick="location.reload()">返回首頁</button>
+      </div>
+    </section>
+
+  </main>
 </div>
+
+<script src="app.js"></script>
 </body>
 </html>
