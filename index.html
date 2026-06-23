@@ -7,139 +7,101 @@
 <title>碩赫科技｜驗屋預約</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
+
 <body>
 
 <div class="app">
 
   <header class="topbar">
-
-    <div class="brand">
-
-      <img
-        src="assets/logo-white.png"
-        alt="碩赫科技LOGO"
-      >
-
-      <div>
-
-        <h1>碩赫科技</h1>
-
-        <p>YAN HE TECHNOLOGY</p>
-
-      </div>
-
-    </div>
-
+    <img src="assets/logo.jpg" alt="碩赫科技LOGO" class="main-logo">
   </header>
 
-  <section class="hero">
+  <main id="homePage">
 
-    <div class="hero-overlay"></div>
+    <section class="hero-image">
+      <img src="assets/hero.webp" alt="碩赫科技專業儀器檢測">
+    </section>
 
-    <div class="hero-content">
+    <section class="booking-cta">
+      <h1>專業驗屋，守護您的家</h1>
+      <p>嚴守專業｜嚴厲執行｜嚴苛驗屋</p>
 
-      <h2>
-        專業驗屋<br>
-        守護您的家
-      </h2>
-
-      <p>
-        嚴守專業｜嚴厲執行｜嚴苛驗屋
-      </p>
-
-      <button class="gold-btn">
+      <button class="gold-btn" onclick="startBooking()">
         立即預約驗屋
       </button>
+    </section>
 
-    </div>
+    <section class="trust-section">
 
-  </section>
+      <div class="trust-card">
+        <strong>30+</strong>
+        <span>專業檢測設備</span>
+      </div>
 
-  <section class="features">
+      <div class="trust-card">
+        <strong>100%</strong>
+        <span>儀器年度校正</span>
+      </div>
 
-    <div class="feature-card">
-      專業儀器檢測
-    </div>
+      <div class="trust-card">
+        <strong>3000+</strong>
+        <span>驗屋案例經驗</span>
+      </div>
 
-    <div class="feature-card">
-      詳細電子報告
-    </div>
+      <div class="trust-card">
+        <strong>住保認證</strong>
+        <span>合法驗屋公司</span>
+      </div>
 
-    <div class="feature-card">
-      驗屋經驗豐富
-    </div>
+    </section>
 
-    <div class="feature-card">
-      LINE線上客服
-    </div>
+    <section class="plans">
 
-  </section>
+      <div class="section-title">
+        <h2>驗屋方案</h2>
+        <p>請選擇適合您的驗屋服務</p>
+      </div>
 
-  <section class="plans">
+      <div id="planCards">
 
-    <h3>驗屋方案</h3>
-
-    <div id="planCards">
-
-      <div class="plan-card">
-
-        <div>
-
-          <strong>小資版</strong>
-
-          <span>
-            22項檢驗項目
-          </span>
-
+        <div class="plan-card">
+          <div>
+            <strong>小資版</strong>
+            <span>22項檢驗項目</span>
+          </div>
+          <div class="price">$10,400起</div>
         </div>
 
-        <div class="price">
-          $10,400起
+        <div class="plan-card main-plan">
+          <div>
+            <strong>全方位版</strong>
+            <span>35項檢驗項目｜主力方案</span>
+          </div>
+          <div class="price">$12,000起</div>
+        </div>
+
+        <div class="plan-card">
+          <div>
+            <strong>中古屋客製版</strong>
+            <span>9項基本檢驗</span>
+          </div>
+          <div class="price">$5,000起</div>
+        </div>
+
+        <div class="plan-card">
+          <div>
+            <strong>社區團購方案</strong>
+            <span>3戶以上享優惠</span>
+          </div>
+          <div class="price">$10,000起</div>
         </div>
 
       </div>
 
-      <div class="plan-card">
+    </section>
 
-        <div>
-
-          <strong>全方位版</strong>
-
-          <span>
-            35項檢驗項目
-          </span>
-
-        </div>
-
-        <div class="price">
-          $12,000起
-        </div>
-
-      </div>
-
-      <div class="plan-card">
-
-        <div>
-
-          <strong>中古屋客製版</strong>
-
-          <span>
-            9項基本檢驗
-          </span>
-
-        </div>
-
-        <div class="price">
-          $5,000起
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
+  </main>
 
 </div>
 
