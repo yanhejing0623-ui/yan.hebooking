@@ -28,12 +28,16 @@ async function loadData() {
 }
 
 function startBooking() {
-  document.querySelector(".plans").scrollIntoView({ behavior: "smooth" });
+  document.querySelector(".plans").scrollIntoView({
+    behavior: "smooth"
+  });
 }
 
 function normalizePriceText(text) {
   if (!text) return "";
-  return String(text).replace(/起起/g, "起");
+  return String(text)
+    .replace(/起起/g, "起")
+    .replace(/元起起/g, "元起");
 }
 
 function renderPlans(priceList) {
@@ -43,7 +47,10 @@ function renderPlans(priceList) {
   const uniquePlans = {};
 
   priceList.forEach(item => {
-    const enabled = item["啟用"] === true || item["啟用"] === "TRUE";
+    const enabled =
+      item["啟用"] === true ||
+      item["啟用"] === "TRUE";
+
     if (!enabled) return;
 
     if (!uniquePlans[item["方案"]]) {
@@ -59,11 +66,16 @@ function renderPlans(priceList) {
     const isMain = planName.includes("全方位");
 
     planCards.innerHTML += `
-      <div class="plan-card ${isMain ? "selected" : ""}" data-plan="${planName}" onclick="selectPlan('${planName}')">
+      <div
+        class="plan-card ${isMain ? "selected" : ""}"
+        data-plan="${planName}"
+        onclick="selectPlan('${planName}')"
+      >
         <div>
           <strong>${planName}</strong>
           <span>${getPlanSubText(planName)}</span>
         </div>
+
         <div class="price">${priceText}</div>
       </div>
     `;
@@ -77,7 +89,9 @@ function renderPlans(priceList) {
     }
   });
 
-  if (selectedPlan) updateSelectedBox();
+  if (selectedPlan) {
+    updateSelectedBox(false);
+  }
 }
 
 function getPlanSubText(planName) {
@@ -85,12 +99,16 @@ function getPlanSubText(planName) {
   if (planName.includes("全方位")) return "35項檢驗項目｜主力方案";
   if (planName.includes("中古")) return "9項基本檢驗";
   if (planName.includes("社區")) return "3戶以上享優惠";
+
   return "驗屋服務";
 }
 
 function selectPlan(planName) {
-  const plan = priceListData.find(item => item["方案"] === planName);
-  const priceText = plan ? normalizePriceText(plan["價格文字"]) : "";
+  const plan =
+    priceListData.find(item => item["方案"] === planName);
+
+  const priceText =
+    plan ? normalizePriceText(plan["價格文字"]) : "";
 
   selectedPlan = {
     name: planName,
@@ -99,48 +117,92 @@ function selectPlan(planName) {
   };
 
   document.querySelectorAll(".plan-card").forEach(card => {
-    card.classList.toggle("selected", card.dataset.plan === planName);
+    card.classList.toggle(
+      "selected",
+      card.dataset.plan === planName
+    );
   });
 
-  updateSelectedBox();
+  updateSelectedBox(true);
 }
 
-function updateSelectedBox() {
-  document.getElementById("selectedPlanBox").classList.remove("hidden");
-  document.getElementById("selectedPlanName").innerText =
+function updateSelectedBox(shouldScroll = false) {
+  const box =
+    document.getElementById("selectedPlanBox");
+
+  const name =
+    document.getElementById("selectedPlanName");
+
+  if (!box || !name || !selectedPlan) return;
+
+  box.classList.remove("hidden");
+
+  name.innerText =
     `${selectedPlan.name}｜${selectedPlan.price}`;
+
+  if (shouldScroll) {
+    box.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
 }
 
 function openBookingForm() {
-  document.getElementById("bookingForm").classList.remove("hidden");
-  document.getElementById("bookingForm").scrollIntoView({ behavior: "smooth" });
+  const form =
+    document.getElementById("bookingForm");
+
+  form.classList.remove("hidden");
+
+  form.scrollIntoView({
+    behavior: "smooth"
+  });
 }
 
 function getValue(id) {
-  return document.getElementById(id).value.trim();
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function validateBookingForm() {
+  const requiredFields = [
+    "name",
+    "phone",
+    "email",
+    "projectName",
+    "unitFloor",
+    "area",
+    "contractArea",
+    "bookingDate",
+    "bookingTime",
+    "invoiceCarrier"
+  ];
+
+  for (const id of requiredFields) {
+    if (!getValue(id)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 async function submitBooking() {
+  const submitBtn =
+    document.querySelector(".submit-btn");
+
   if (!selectedPlan) {
     alert("請先選擇方案");
     return;
   }
 
-  if (
-    !getValue("name") ||
-    !getValue("phone") ||
-    !getValue("email") ||
-    !getValue("projectName") ||
-    !getValue("unitFloor") ||
-    !getValue("area") ||
-    !getValue("contractArea") ||
-    !getValue("bookingDate") ||
-    !getValue("bookingTime") ||
-    !getValue("invoiceCarrier")
-  ) {
+  if (!validateBookingForm()) {
     alert("請確認必填欄位都有填寫");
     return;
   }
+
+  submitBtn.disabled = true;
+  submitBtn.innerText = "送出中...";
 
   const payload = {
     action: "createBooking",
@@ -179,18 +241,41 @@ async function submitBooking() {
     const result = await res.json();
 
     if (result.ok) {
-      document.getElementById("bookingForm").classList.add("hidden");
-      document.getElementById("successPage").classList.remove("hidden");
-      document.getElementById("successText").innerText =
-        `我們已收到您的預約資訊，案件編號：${result.bookingId}。專人將盡快與您聯繫確認。`;
+      submitBtn.innerText = "送出成功";
 
-      document.getElementById("successPage").scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById("bookingForm")
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById("successPage")
+        .classList
+        .remove("hidden");
+
+      document
+        .getElementById("successText")
+        .innerText =
+          `我們已收到您的預約資訊，案件編號：${result.bookingId}。專人將盡快與您聯繫確認。`;
+
+      document
+        .getElementById("successPage")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
     } else {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "送出預約";
       alert("送出失敗：" + (result.message || ""));
     }
 
   } catch (error) {
     console.error(error);
+
+    submitBtn.disabled = false;
+    submitBtn.innerText = "送出預約";
+
     alert("送出失敗，請稍後再試");
   }
 }
