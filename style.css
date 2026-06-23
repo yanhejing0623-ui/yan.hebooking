@@ -1,1 +1,148 @@
+:root{
+  --primary:#00384D;
+  --secondary:#0D5564;
+  --accent:#D7B36A;
+  --bg:#F8FAFB;
+  --text:#073044;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Noto Sans TC",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.app{
+  max-width:430px;
+  margin:auto;
+  background:white;
+  min-height:100vh;
+}
+
+.topbar{
+  background:var(--primary);
+  color:white;
+  padding:18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand img{
+  width:50px;
+  height:50px;
+  object-fit:contain;
+}
+
+.brand h1{
+  font-size:22px;
+}
+
+.brand p{
+  font-size:12px;
+  opacity:.8;
+}
+
+.hero{
+  position:relative;
+  height:320px;
+  background:url("assets/hero.jpg") center/cover;
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,56,77,.65);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  color:white;
+  padding:40px 25px;
+}
+
+.hero-content h2{
+  font-size:38px;
+  line-height:1.3;
+  margin-bottom:10px;
+}
+
+.hero-content p{
+  margin-bottom:25px;
+}
+
+.gold-btn{
+  width:100%;
+  border:none;
+  border-radius:12px;
+  padding:15px;
+  background:var(--accent);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  padding:20px;
+}
+
+.feature-card{
+  background:white;
+  border:1px solid #E5E5E5;
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+  font-weight:600;
+}
+
+.plans{
+  padding:20px;
+}
+
+.plans h3{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.plan-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px;
+  margin-bottom:15px;
+  background:white;
+  border-radius:14px;
+  border:1px solid #EAEAEA;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+.plan-card strong{
+  display:block;
+  font-size:18px;
+}
+
+.plan-card span{
+  color:#777;
+  font-size:14px;
+}
+
+.price{
+  color:var(--accent);
+  font-weight:bold;
+  font-size:20px;
+}
 
