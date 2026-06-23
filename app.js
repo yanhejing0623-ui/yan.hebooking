@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbz3kINKKAMsA1BKuAY8eAPTt-ItJMlGvV5vt8fXh5T-krulq8A-CcJzhUMvYnmqdz_BEA/exec";
+"https://script.google.com/macros/s/AKfycbwBIxE-J_QhF7Ffv68Mzdb5gls9ayYRQfkEbyU4R2d6Z9taMPG0uiE-3nbosHKeNECfgw/exec";
 
 let priceListData = [];
 
