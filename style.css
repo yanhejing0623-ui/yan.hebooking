@@ -341,3 +341,92 @@ textarea{
   color:white;
   font-weight:800;
 }
+
+/* ===========================
+   方案詳細內容
+=========================== */
+
+.plan-detail-placeholder{
+  margin-top:18px;
+  padding:28px 20px;
+  background:#fff;
+  border:1px dashed #D7B36A;
+  border-radius:20px;
+  text-align:center;
+}
+
+.placeholder-icon{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.plan-detail-placeholder h3{
+  color:#00384D;
+  margin-bottom:8px;
+}
+
+.plan-detail-placeholder p{
+  color:#708089;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.plan-detail-box{
+  margin-top:18px;
+  padding:20px;
+  border-radius:20px;
+  background:white;
+  border:1px solid #E5EEF2;
+  box-shadow:0 10px 25px rgba(0,56,77,.06);
+}
+
+.plan-detail-box h3{
+  color:#00384D;
+  font-size:22px;
+  margin-bottom:16px;
+}
+
+.detail-title{
+  margin:18px 0 10px;
+  font-size:16px;
+  font-weight:800;
+  color:#00384D;
+}
+
+.price-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #EEF3F5;
+}
+
+.price-row:last-child{
+  border-bottom:none;
+}
+
+.price-row span{
+  color:#425866;
+}
+
+.price-row strong{
+  color:#C69A43;
+  font-size:17px;
+}
+
+.plan-item{
+  background:#F8FBFC;
+  border:1px solid #EEF3F5;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:8px;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.plan-count{
+  margin-top:15px;
+  text-align:center;
+  font-weight:800;
+  color:#00384D;
+}
