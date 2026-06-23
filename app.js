@@ -6,32 +6,25 @@ let plansData = [];
 let selectedPlan = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  showLoading();
   loadData();
 });
 
 function showLoading() {
-
-  const container =
-    document.getElementById(
-      "planDetailContainer"
-    );
+  const container = document.getElementById("planDetailContainer");
 
   if (!container) return;
 
   container.innerHTML = `
     <div class="plan-detail-placeholder">
+      <div class="placeholder-icon">⏳</div>
 
-      <div class="loading-spinner"></div>
-
-      <h3>
-        驗屋方案載入中...
-      </h3>
+      <h3>驗屋方案載入中...</h3>
 
       <p>
-        正在讀取方案資料，
+        正在讀取價格級距、驗屋內容與檢驗項目，
         請稍候片刻。
       </p>
-
     </div>
   `;
 }
@@ -53,6 +46,7 @@ async function loadData() {
 
   } catch (error) {
     console.error(error);
+
     alert("API連線失敗，請確認 Apps Script 是否已重新部署");
   }
 }
@@ -81,12 +75,14 @@ function getPlanSubText(planName) {
   if (planName.includes("小資")) return "22項檢驗項目";
   if (planName.includes("全方位")) return "35項檢驗項目｜主力方案";
   if (planName.includes("中古")) return "9項基本檢驗";
-  if (planName.includes("社區")) return "三戶以上｜採用全方位版檢驗內容";
+  if (planName.includes("社區")) return "需三戶以上｜採用全方位版檢驗內容";
+
   return "驗屋服務";
 }
 
 function renderPlans(priceList) {
   const planCards = document.getElementById("planCards");
+
   if (!planCards) return;
 
   const groupedPlans = {};
@@ -117,7 +113,8 @@ function renderPlans(priceList) {
       .map(row => Number(row["價格"]))
       .filter(price => !isNaN(price) && price > 0);
 
-    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+    const minPrice =
+      prices.length > 0 ? Math.min(...prices) : 0;
 
     const displayPrice =
       minPrice > 0
@@ -170,7 +167,8 @@ function selectPlan(planName) {
     .map(row => Number(row["價格"]))
     .filter(price => !isNaN(price) && price > 0);
 
-  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+  const minPrice =
+    prices.length > 0 ? Math.min(...prices) : 0;
 
   const displayPrice =
     minPrice > 0
@@ -195,11 +193,14 @@ function selectPlan(planName) {
 }
 
 function renderPlanDetail(planName) {
-  const container = document.getElementById("planDetailContainer");
+  const container =
+    document.getElementById("planDetailContainer");
+
   if (!container) return;
 
   const prices = priceListData.filter(
-    row => row["方案"] === planName &&
+    row =>
+      row["方案"] === planName &&
       (
         row["啟用"] === true ||
         row["啟用"] === "TRUE"
@@ -242,19 +243,14 @@ function renderPlanDetail(planName) {
     `;
   });
 
-  const title =
-    planName === "社區團購方案"
-      ? "社區團購方案"
-      : planName;
-
   const itemNote =
     planName === "社區團購方案"
-      ? "採用全方位版 35 項檢驗內容"
+      ? "需三戶以上｜採用全方位版 35 項檢驗內容"
       : `共 ${items.length} 項檢驗內容`;
 
   container.innerHTML = `
     <div class="plan-detail-box">
-      <h3>${title}</h3>
+      <h3>${planName}</h3>
 
       <div class="detail-title">
         💰 價格級距
