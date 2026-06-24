@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwYw8ElfghdrxlL0y4FyGw3xPmvvfwIbCNtk6oanObBi5Op6kkZtpSaZ3vIvgrSB2Czzg/exec";
+"https://script.google.com/macros/s/AKfycby09EEwCpP_5YE8qcwfI_ytbSPmoOkpWSQ6eNO58NMGlbPPNaWLSz1BQhDmHaBZhoCxsw/exec";
 
 let priceListData = [];
 let plansData = [];
