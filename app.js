@@ -18,13 +18,8 @@ function showLoading() {
   container.innerHTML = `
     <div class="plan-detail-placeholder">
       <div class="placeholder-icon">⏳</div>
-
       <h3>驗屋方案載入中...</h3>
-
-      <p>
-        正在讀取價格級距、驗屋內容與檢驗項目，
-        請稍候片刻。
-      </p>
+      <p>正在讀取價格級距、驗屋內容與檢驗項目，請稍候片刻。</p>
     </div>
   `;
 }
@@ -46,15 +41,12 @@ async function loadData() {
 
   } catch (error) {
     console.error(error);
-
     alert("API連線失敗，請確認 Apps Script 是否已重新部署");
   }
 }
 
 function startBooking() {
-  document.querySelector(".plans").scrollIntoView({
-    behavior: "smooth"
-  });
+  document.querySelector(".plans").scrollIntoView({ behavior: "smooth" });
 }
 
 function normalizePriceText(text) {
@@ -113,8 +105,7 @@ function renderPlans(priceList) {
       .map(row => Number(row["價格"]))
       .filter(price => !isNaN(price) && price > 0);
 
-    const minPrice =
-      prices.length > 0 ? Math.min(...prices) : 0;
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
     const displayPrice =
       minPrice > 0
@@ -167,8 +158,7 @@ function selectPlan(planName) {
     .map(row => Number(row["價格"]))
     .filter(price => !isNaN(price) && price > 0);
 
-  const minPrice =
-    prices.length > 0 ? Math.min(...prices) : 0;
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
   const displayPrice =
     minPrice > 0
@@ -193,8 +183,7 @@ function selectPlan(planName) {
 }
 
 function renderPlanDetail(planName) {
-  const container =
-    document.getElementById("planDetailContainer");
+  const container = document.getElementById("planDetailContainer");
 
   if (!container) return;
 
@@ -252,16 +241,10 @@ function renderPlanDetail(planName) {
     <div class="plan-detail-box">
       <h3>${planName}</h3>
 
-      <div class="detail-title">
-        💰 價格級距
-      </div>
-
+      <div class="detail-title">💰 價格級距</div>
       ${priceHtml}
 
-      <div class="detail-title">
-        📋 驗屋內容
-      </div>
-
+      <div class="detail-title">📋 驗屋內容</div>
       ${itemHtml}
 
       <div class="plan-count">
@@ -278,9 +261,7 @@ function updateSelectedBox(shouldScroll = false) {
   if (!box || !name || !selectedPlan) return;
 
   box.classList.remove("hidden");
-
-  name.innerText =
-    `${selectedPlan.name}｜${selectedPlan.price}`;
+  name.innerText = `${selectedPlan.name}｜${selectedPlan.price}`;
 
   if (shouldScroll) {
     box.scrollIntoView({
@@ -294,10 +275,7 @@ function openBookingForm() {
   const form = document.getElementById("bookingForm");
 
   form.classList.remove("hidden");
-
-  form.scrollIntoView({
-    behavior: "smooth"
-  });
+  form.scrollIntoView({ behavior: "smooth" });
 }
 
 function getValue(id) {
@@ -309,14 +287,12 @@ function validateBookingForm() {
   const requiredFields = [
     "name",
     "phone",
-    "email",
     "projectName",
     "unitFloor",
     "area",
     "contractArea",
     "bookingDate",
-    "bookingTime",
-    "invoiceCarrier"
+    "bookingTime"
   ];
 
   for (const id of requiredFields) {
