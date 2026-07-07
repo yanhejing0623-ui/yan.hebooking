@@ -317,7 +317,7 @@ function safeLineValue(value, fallback = "未填寫") {
 
 function buildLineConfirmMessage(bookingId, bookingData) {
   return `
-您好，我已完成硯赫科技驗屋預約，請客服協助確認。
+您好，我已完成硯赫科技驗屋預約，請客服協助確認。(幫我送出以下文字)
 
 預約編號：${safeLineValue(bookingId, "系統已建立")}
 預約姓名：${safeLineValue(bookingData.name)}
@@ -332,7 +332,7 @@ function buildLineConfirmMessage(bookingId, bookingData) {
 預約方案：${safeLineValue(bookingData.planName)}
 方案價格：${safeLineValue(bookingData.price)}
 
-請協助確認預約是否成立，謝謝。
+請協助確認預約，謝謝。
   `.trim();
 }
 
