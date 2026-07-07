@@ -1,6 +1,9 @@
 const API_URL =
 "https://script.google.com/macros/s/AKfycby09EEwCpP_5YE8qcwfI_ytbSPmoOkpWSQ6eNO58NMGlbPPNaWLSz1BQhDmHaBZhoCxsw/exec";
 
+const LINE_OA_ID = "@yan_he";
+const LINE_REDIRECT_DELAY_MS = 800;
+
 let priceListData = [];
 let plansData = [];
 let selectedPlan = null;
@@ -304,6 +307,88 @@ function validateBookingForm() {
   return true;
 }
 
+function safeLineValue(value, fallback = "未填寫") {
+  if (value === undefined || value === null || String(value).trim() === "") {
+    return fallback;
+  }
+
+  return String(value).trim();
+}
+
+function buildLineConfirmMessage(bookingId, bookingData) {
+  return `
+您好，我已完成硯赫科技驗屋預約，請客服協助確認。
+
+預約編號：${safeLineValue(bookingId, "系統已建立")}
+預約姓名：${safeLineValue(bookingData.name)}
+聯絡電話：${safeLineValue(bookingData.phone)}
+建案名稱：${safeLineValue(bookingData.projectName)}
+驗屋地址：${safeLineValue(bookingData.address)}
+戶別／樓層：${safeLineValue(bookingData.unitFloor)}
+權狀坪數：${safeLineValue(bookingData.area)}
+主建物＋附屬建物坪數：${safeLineValue(bookingData.contractArea)}
+預約日期：${safeLineValue(bookingData.bookingDate)}
+預約時段：${safeLineValue(bookingData.bookingTime)}
+預約方案：${safeLineValue(bookingData.planName)}
+方案價格：${safeLineValue(bookingData.price)}
+
+請協助確認預約是否成立，謝謝。
+  `.trim();
+}
+
+function buildLineOaMessageUrl(bookingId, bookingData) {
+  const message = buildLineConfirmMessage(bookingId, bookingData);
+
+  return `https://line.me/R/oaMessage/${encodeURIComponent(LINE_OA_ID)}/?${encodeURIComponent(message)}`;
+}
+
+function ensureLineConfirmButton(lineUrl) {
+  const successPage = document.getElementById("successPage");
+
+  if (!successPage) return;
+
+  let hint = document.getElementById("lineConfirmHint");
+
+  if (!hint) {
+    hint = document.createElement("p");
+    hint.id = "lineConfirmHint";
+    hint.innerText = "下一步請送出 LINE 確認訊息，讓客服可以主動與您聯繫。";
+    hint.style.marginTop = "16px";
+    hint.style.fontWeight = "700";
+    successPage.appendChild(hint);
+  }
+
+  let btn = document.getElementById("lineConfirmBtn");
+
+  if (!btn) {
+    btn = document.createElement("a");
+    btn.id = "lineConfirmBtn";
+    btn.className = "primary-btn line-confirm-btn";
+    btn.innerText = "前往 LINE 完成預約確認";
+    btn.target = "_blank";
+    btn.rel = "noopener";
+
+    btn.style.display = "inline-flex";
+    btn.style.alignItems = "center";
+    btn.style.justifyContent = "center";
+    btn.style.marginTop = "12px";
+    btn.style.padding = "14px 18px";
+    btn.style.borderRadius = "999px";
+    btn.style.textDecoration = "none";
+    btn.style.fontWeight = "800";
+
+    successPage.appendChild(btn);
+  }
+
+  btn.href = lineUrl;
+}
+
+function goToLineConfirm(lineUrl) {
+  setTimeout(() => {
+    window.location.href = lineUrl;
+  }, LINE_REDIRECT_DELAY_MS);
+}
+
 async function submitBooking() {
   const submitBtn = document.querySelector(".submit-btn");
 
@@ -357,6 +442,9 @@ async function submitBooking() {
     const result = await res.json();
 
     if (result.ok) {
+      const bookingId = result.bookingId || result.id || "";
+      const lineUrl = buildLineOaMessageUrl(bookingId, payload.data);
+
       submitBtn.innerText = "送出成功";
 
       document
@@ -372,13 +460,17 @@ async function submitBooking() {
       document
         .getElementById("successText")
         .innerText =
-          `我們已收到您的預約資訊，案件編號：${result.bookingId}。專人將盡快與您聯繫確認。`;
+          `我們已收到您的預約資訊，案件編號：${bookingId}。接下來系統將開啟 LINE 官方帳號，請送出預設訊息完成預約確認，方便客服與您聯繫。`;
+
+      ensureLineConfirmButton(lineUrl);
 
       document
         .getElementById("successPage")
         .scrollIntoView({
           behavior: "smooth"
         });
+
+      goToLineConfirm(lineUrl);
 
     } else {
       submitBtn.disabled = false;
