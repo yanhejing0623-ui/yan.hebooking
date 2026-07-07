@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycby09EEwCpP_5YE8qcwfI_ytbSPmoOkpWSQ6eNO58NMGlbPPNaWLSz1BQhDmHaBZhoCxsw/exec";
+"https://script.google.com/macros/s/AKfycbwzg1_FJkVHaDjG3c59NzmUJ6vqDrdv6KiwVSogWzSSLvJU0-f8r7GoV5-yNMqTPEXsEA/exec";
 
 const LINE_OA_ID = "@yan_he";
 const LINE_REDIRECT_DELAY_MS = 800;
